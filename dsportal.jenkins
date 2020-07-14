@@ -43,7 +43,10 @@ pipeline{
                 sh "git checkout ${params.Branch}"
                 sh "git pull origin ${params.Repo}"
                 sh '''
-                docker build vstempel/${params.Project}:latest .
+                docker stop vstempel/${params.Project}
+                '''
+                sh '''
+                docker build -t vstempel/${params.Project}:latest .
                 '''
                 sh '''
                 docker run -d vstempel/${params.Project}:latest
