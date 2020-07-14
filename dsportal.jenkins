@@ -2,8 +2,8 @@
 properties([
     disableConcurrentBuilds(),
     parameters([
-        string(name: 'Branch', defaultValue: 'master', description: 'Branch name')
-        string(name: 'Project', defaultValue: '', description: 'Project to build')
+        string(name: 'Branch', defaultValue: 'master', description: 'Branch name'),
+        string(name: 'Project', defaultValue: '', description: 'Project to build'),
         string(name: 'Repo', defaultValue: '', description: 'Repository')
     ])    
 ])
