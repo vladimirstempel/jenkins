@@ -1,6 +1,6 @@
 #!groovy
 properties([
-    disableConcurrentBuilds()
+    disableConcurrentBuilds(),
     parameters([
         string(name: 'Branch', defaultValue: 'master', description: 'Branch name')
         string(name: 'Project', defaultValue: '', description: 'Project to build')
