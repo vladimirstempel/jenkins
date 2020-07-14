@@ -1,10 +1,18 @@
 #!groovy
-properties([disableConcurrentBuilds()])
+properties([
+    disableConcurrentBuilds()
+    parameters([
+        string(name: 'Branch', defaultValue: 'master', description: 'Branch name')
+        string(name: 'Project', defaultValue: '', description: 'Project to build')
+        string(name: 'Repo', defaultValue: '', description: 'Repository')
+    ])    
+])
 
 pipeline{
     agent{
         label "master"
     }
+    
     options{
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         timestamps()
@@ -28,19 +36,17 @@ pipeline{
         //         }
         //     }
         // }
-        stage("docker pull") {
+        stage("pull project") {
             steps{
                 echo "============= start pulling ============="
+                cd "/usr/share/projects/${params.Project}"
+                sh "git checkout ${params.Branch}"
+                sh "git pull origin ${params.Repo}"
                 sh '''
-                docker pull vstempel/dsportal:latest
+                docker build vstempel/${params.Project}:latest .
                 '''
-            }
-        }
-        stage("docker run") {
-            steps{
-                echo "============= start pulling ============="
                 sh '''
-                docker build vstempel/dsportal:latest .
+                docker run -d vstempel/${params.Project}:latest
                 '''
             }
         }
